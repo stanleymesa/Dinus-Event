@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Dinusen</string>
     <string name="search">Search</string>
+    <string name="on_going_event">On Going Event</string>
+    <string name="see_all">See All</string>
+    <string name="upcoming_online">Upcoming Online</string>
+    <string name="upcoming_offline">Upcoming Offline</string>
 </resources>

@@ -1,25 +1,46 @@
 package com.example.dinusen.ui.activity
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
-import androidx.appcompat.app.AppCompatActivity
+import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.widget.NestedScrollView
 import com.example.dinusen.R
 import com.example.dinusen.databinding.ActivityMainBinding
-import com.example.dinusen.helper.getColorFromAttr
-import com.example.dinusen.helper.getColorStateListPrimary
-import com.example.dinusen.helper.getColorStateListSecondaryVariant
-import com.example.dinusen.helper.getHelperDrawable
+import com.example.dinusen.helper.*
+import com.example.dinusen.repository.RetrofitRepository
+import com.example.dinusen.ui.adapter.MainAdapter
+import com.example.dinusen.ui.viewmodel.MainViewModel
+import com.example.dinusen.ui.viewmodel.RetrofitViewModelFactory
+import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.SkeletonLayout
+import com.faltenreich.skeletonlayout.applySkeleton
+import com.faltenreich.skeletonlayout.createSkeleton
+import com.google.android.material.snackbar.Snackbar
 import kotlin.math.max
 import kotlin.math.min
 
 class MainActivity : AppCompatActivity() {
 
     private var ratio = 0F
+    private val onGoingAdapter = MainAdapter()
+    private val upcomingOnlineAdapter = MainAdapter()
+    private val upcomingOfflineAdapter = MainAdapter()
+    private lateinit var skeletonRvOngoing: Skeleton
+    private lateinit var skeletonRvUpcomingOnline: Skeleton
+    private lateinit var skeletonRvUpcomingOffline: Skeleton
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+    private val mainViewModel by viewModels<MainViewModel> {
+        RetrofitViewModelFactory.getInstance(RetrofitRepository())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +52,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         setToolbar()
+        setAdapter()
+        setSkeleton()
+        observeData()
     }
 
     private fun setToolbar() {
@@ -42,7 +66,6 @@ class MainActivity : AppCompatActivity() {
 
 
         // On Scrolled
-
         binding.content.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
             val headerHeight: Int = binding.content.header.height - binding.toolbar.root.height
             ratio = min(max(scrollY, 0), headerHeight).toFloat() / headerHeight
@@ -76,6 +99,89 @@ class MainActivity : AppCompatActivity() {
             DrawableCompat.setTintMode(searchIcon, PorterDuff.Mode.SRC_IN)
             editText!!.setCompoundDrawablesWithIntrinsicBounds(searchIcon, null, null, null)
 
+        }
+    }
+
+    private fun setAdapter() {
+        binding.content.rvOngoing.apply {
+            val widthInDp = 16
+            addItemDecoration(MarginItemDecoration(widthInDp.toPixel(this@MainActivity)))
+            adapter = onGoingAdapter
+        }
+
+        binding.content.rvUpcomingOnline.apply {
+            val widthInDp = 16
+            addItemDecoration(MarginItemDecoration(widthInDp.toPixel(this@MainActivity)))
+            adapter = upcomingOnlineAdapter
+        }
+
+        binding.content.rvUpcomingOffline.apply {
+            val widthInDp = 16
+            addItemDecoration(MarginItemDecoration(widthInDp.toPixel(this@MainActivity)))
+            adapter = upcomingOfflineAdapter
+        }
+    }
+
+    private fun setSkeleton() {
+        val radius = 16
+        skeletonRvOngoing = binding.content.rvOngoing.applySkeleton(R.layout.item_row_event)
+        skeletonRvOngoing.maskCornerRadius = radius.toPixel(this@MainActivity).toFloat()
+
+        skeletonRvUpcomingOnline = binding.content.rvUpcomingOnline.applySkeleton(R.layout.item_row_event)
+        skeletonRvUpcomingOnline.maskCornerRadius = radius.toPixel(this@MainActivity).toFloat()
+
+        skeletonRvUpcomingOffline = binding.content.rvUpcomingOffline.applySkeleton(R.layout.item_row_event)
+        skeletonRvUpcomingOffline.maskCornerRadius = radius.toPixel(this@MainActivity).toFloat()
+    }
+
+    private fun showSkeleton() {
+        skeletonRvOngoing.showSkeleton()
+        skeletonRvUpcomingOnline.showSkeleton()
+        skeletonRvUpcomingOffline.showSkeleton()
+    }
+
+    private fun cancelSkeleton() {
+        skeletonRvOngoing.showOriginal()
+        skeletonRvUpcomingOnline.showOriginal()
+        skeletonRvUpcomingOffline.showOriginal()
+    }
+
+    private fun observeData() {
+        mainViewModel.getAllEvent()
+
+        mainViewModel.events.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                response.data?.let { data ->
+
+                    data.onGoing.apply {
+                        if (isNotEmpty()) {
+                            onGoingAdapter.submitList(this)
+                        }
+                    }
+
+                    data.onlineUpcoming.apply {
+                        if (isNotEmpty()) {
+                            upcomingOnlineAdapter.submitList(this)
+                        }
+                    }
+
+                    data.offlineUpcoming.apply {
+                        if (isNotEmpty()) {
+                            upcomingOfflineAdapter.submitList(this)
+                        }
+                    }
+                }
+            }
+        }
+
+        mainViewModel.isLoading.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { isLoading ->
+                if (isLoading) {
+                    showSkeleton()
+                } else {
+                    cancelSkeleton()
+                }
+            }
         }
     }
 
