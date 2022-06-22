@@ -46,21 +46,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_title_ongoing" />
 
-        <com.faltenreich.skeletonlayout.SkeletonLayout
-            android:id="@+id/skeleton_ongoing"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_ongoing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_title_ongoing">
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_ongoing"
+            tools:listitem="@layout/item_row_event" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_ongoing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_row_event" />
-
-        </com.faltenreich.skeletonlayout.SkeletonLayout>
+        <TextView
+            android:id="@+id/tv_ongoing_empty"
+            android:layout_width="match_parent"
+            android:layout_height="296dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:text="@string/on_going_empty"
+            android:textColor="?attr/colorOnSecondary"
+            android:textStyle="italic"
+            android:theme="@style/poppinsMedium"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_ongoing" />
 
 
         <!-- UPCOMING ONLINE -->
@@ -68,14 +77,14 @@
             android:id="@+id/tv_title_upcoming_online"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="@string/upcoming_online"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="16sp"
             android:theme="@style/poppinsExtraBold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/skeleton_ongoing" />
+            app:layout_constraintTop_toBottomOf="@id/tv_ongoing_empty" />
 
         <TextView
             android:id="@+id/tv_see_all_upcoming_online"
@@ -91,21 +100,31 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_title_upcoming_online" />
 
-        <com.faltenreich.skeletonlayout.SkeletonLayout
-            android:id="@+id/skeleton_upcoming_online"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_upcoming_online"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_title_upcoming_online">
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_upcoming_online"
+            tools:listitem="@layout/item_row_event" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_upcoming_online"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_row_event" />
-
-        </com.faltenreich.skeletonlayout.SkeletonLayout>
+        <TextView
+            android:id="@+id/tv_upcoming_online_empty"
+            android:layout_width="match_parent"
+            android:layout_height="296dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:text="@string/upcoming_online_empty"
+            android:textColor="?attr/colorOnSecondary"
+            android:textStyle="italic"
+            android:theme="@style/poppinsMedium"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_upcoming_online" />
 
 
         <!-- UPCOMING OFFLINE -->
@@ -113,14 +132,14 @@
             android:id="@+id/tv_title_upcoming_offline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="@string/upcoming_offline"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="16sp"
             android:theme="@style/poppinsExtraBold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/skeleton_upcoming_online" />
+            app:layout_constraintTop_toBottomOf="@id/tv_upcoming_online_empty" />
 
         <TextView
             android:id="@+id/tv_see_all_upcoming_offline"
@@ -136,21 +155,31 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_title_upcoming_offline" />
 
-        <com.faltenreich.skeletonlayout.SkeletonLayout
-            android:id="@+id/skeleton_upcoming_offline"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_upcoming_offline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_title_upcoming_offline">
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_upcoming_offline"
+            tools:listitem="@layout/item_row_event" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_upcoming_offline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_row_event" />
-
-        </com.faltenreich.skeletonlayout.SkeletonLayout>
+        <TextView
+            android:id="@+id/tv_upcoming_offline_empty"
+            android:layout_width="match_parent"
+            android:layout_height="296dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:text="@string/upcoming_offline_empty"
+            android:textColor="?attr/colorOnSecondary"
+            android:textStyle="italic"
+            android:theme="@style/poppinsMedium"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_upcoming_offline" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
