@@ -9,7 +9,7 @@ import com.example.dinusen.data.remote.response.HomeItem
 import com.example.dinusen.BuildConfig
 import com.example.dinusen.databinding.ItemRowEventBinding
 
-class MainAdapter: ListAdapter<HomeItem, MainAdapter.MainViewHolder>(DiffCallbackEvent) {
+class MainAdapter(private val onItemClickCallback: OnItemClickCallback): ListAdapter<HomeItem, MainAdapter.MainViewHolder>(DiffCallbackEvent) {
     inner class MainViewHolder(var binding: ItemRowEventBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -24,7 +24,15 @@ class MainAdapter: ListAdapter<HomeItem, MainAdapter.MainViewHolder>(DiffCallbac
             Glide.with(root)
                 .load("${BuildConfig.BASE_URL_IMAGE}${event.image}")
                 .into(ivEvent)
+
+            root.setOnClickListener {
+                onItemClickCallback.onItemClicked(event.eventId)
+            }
         }
 
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(eventId: Int)
     }
 }

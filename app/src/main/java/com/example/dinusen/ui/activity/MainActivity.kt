@@ -1,16 +1,14 @@
 package com.example.dinusen.ui.activity
 
-import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
-import android.net.ConnectivityManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import com.example.dinusen.R
 import com.example.dinusen.databinding.ActivityMainBinding
@@ -20,19 +18,16 @@ import com.example.dinusen.ui.adapter.MainAdapter
 import com.example.dinusen.ui.viewmodel.MainViewModel
 import com.example.dinusen.ui.viewmodel.RetrofitViewModelFactory
 import com.faltenreich.skeletonlayout.Skeleton
-import com.faltenreich.skeletonlayout.SkeletonLayout
 import com.faltenreich.skeletonlayout.applySkeleton
-import com.faltenreich.skeletonlayout.createSkeleton
-import com.google.android.material.snackbar.Snackbar
 import kotlin.math.max
 import kotlin.math.min
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
 
     private var ratio = 0F
-    private val onGoingAdapter = MainAdapter()
-    private val upcomingOnlineAdapter = MainAdapter()
-    private val upcomingOfflineAdapter = MainAdapter()
+    private val onGoingAdapter = MainAdapter(this)
+    private val upcomingOnlineAdapter = MainAdapter(this)
+    private val upcomingOfflineAdapter = MainAdapter(this)
     private lateinit var skeletonRvOngoing: Skeleton
     private lateinit var skeletonRvUpcomingOnline: Skeleton
     private lateinit var skeletonRvUpcomingOffline: Skeleton
@@ -155,19 +150,28 @@ class MainActivity : AppCompatActivity() {
 
                     data.onGoing.apply {
                         if (isNotEmpty()) {
+                            binding.content.tvOngoingEmpty.visibility = View.INVISIBLE
                             onGoingAdapter.submitList(this)
+                        } else {
+                            binding.content.tvOngoingEmpty.visibility = View.VISIBLE
                         }
                     }
 
                     data.onlineUpcoming.apply {
                         if (isNotEmpty()) {
+                            binding.content.tvUpcomingOnlineEmpty.visibility = View.INVISIBLE
                             upcomingOnlineAdapter.submitList(this)
+                        } else {
+                            binding.content.tvUpcomingOnlineEmpty.visibility = View.VISIBLE
                         }
                     }
 
                     data.offlineUpcoming.apply {
                         if (isNotEmpty()) {
+                            binding.content.tvUpcomingOfflineEmpty.visibility = View.INVISIBLE
                             upcomingOfflineAdapter.submitList(this)
+                        } else {
+                            binding.content.tvUpcomingOfflineEmpty.visibility = View.VISIBLE
                         }
                     }
                 }
@@ -195,5 +199,11 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onItemClicked(eventId: Int) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(EVENT_ID, eventId)
+        startActivity(intent)
     }
 }

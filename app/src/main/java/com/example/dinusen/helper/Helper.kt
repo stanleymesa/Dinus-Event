@@ -51,6 +51,20 @@ fun Context.getColorStateListPrimary(): ColorStateList {
     )
 }
 
+fun Context.getColorStateListHelper(color: Int): ColorStateList {
+    return ColorStateList(
+        arrayOf(
+            intArrayOf(-state_focused),
+            intArrayOf(state_focused),
+        ),
+
+        intArrayOf(
+            ContextCompat.getColor(this, color),
+            ContextCompat.getColor(this, color)
+        )
+    )
+}
+
 fun Int.toPixel(context: Context): Int {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
