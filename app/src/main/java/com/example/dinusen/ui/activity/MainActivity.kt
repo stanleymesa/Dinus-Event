@@ -5,11 +5,12 @@ import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.dinusen.R
 import com.example.dinusen.databinding.ActivityMainBinding
 import com.example.dinusen.helper.*
@@ -22,7 +23,7 @@ import com.faltenreich.skeletonlayout.applySkeleton
 import kotlin.math.max
 import kotlin.math.min
 
-class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
+class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback, View.OnClickListener {
 
     private var ratio = 0F
     private val onGoingAdapter = MainAdapter(this)
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
         setAdapter()
         setSkeleton()
         observeData()
+        binding.toolbar.etSearch.setOnClickListener(this)
     }
 
     private fun setToolbar() {
@@ -93,7 +95,6 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
             DrawableCompat.setTint(searchIcon, colorIcon)
             DrawableCompat.setTintMode(searchIcon, PorterDuff.Mode.SRC_IN)
             editText!!.setCompoundDrawablesWithIntrinsicBounds(searchIcon, null, null, null)
-
         }
     }
 
@@ -150,6 +151,11 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
 
                     data.onGoing.apply {
                         if (isNotEmpty()) {
+                            binding.content.rvOngoing.apply {
+                                scrollToPosition(Integer.MAX_VALUE / 2)
+                                LinearSnapHelper().attachToRecyclerView(this)
+                            }
+
                             binding.content.tvOngoingEmpty.visibility = View.INVISIBLE
                             onGoingAdapter.submitList(this)
                         } else {
@@ -159,6 +165,10 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
 
                     data.onlineUpcoming.apply {
                         if (isNotEmpty()) {
+                            binding.content.rvUpcomingOnline.apply {
+                                scrollToPosition(Integer.MAX_VALUE / 2)
+                                LinearSnapHelper().attachToRecyclerView(this)
+                            }
                             binding.content.tvUpcomingOnlineEmpty.visibility = View.INVISIBLE
                             upcomingOnlineAdapter.submitList(this)
                         } else {
@@ -168,6 +178,10 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
 
                     data.offlineUpcoming.apply {
                         if (isNotEmpty()) {
+                            binding.content.rvUpcomingOffline.apply {
+                                scrollToPosition(Integer.MAX_VALUE / 2)
+                                LinearSnapHelper().attachToRecyclerView(this)
+                            }
                             binding.content.tvUpcomingOfflineEmpty.visibility = View.INVISIBLE
                             upcomingOfflineAdapter.submitList(this)
                         } else {
@@ -205,5 +219,11 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(EVENT_ID, eventId)
         startActivity(intent)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.et_search -> startActivity(Intent(this, SearchActivity::class.java))
+        }
     }
 }

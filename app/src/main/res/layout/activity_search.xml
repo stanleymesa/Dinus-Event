@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MainActivity">
+    android:background="?attr/colorPrimaryVariant"
+    tools:context=".ui.activity.SearchActivity">
 
     <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         android:id="@+id/content"
-        layout="@layout/content_main"/>
-
+        layout="@layout/content_search"/>
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/custom_toolbar_main"/>
-
+        layout="@layout/custom_toolbar_main" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

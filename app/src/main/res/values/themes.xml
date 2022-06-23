@@ -26,4 +26,9 @@
         <item name="fontFamily">@font/poppins_medium</item>
     </style>
 
+    <style name="chipText" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
 </resources>
