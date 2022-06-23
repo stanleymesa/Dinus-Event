@@ -7,8 +7,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.R.attr.colorPrimary
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.example.dinusen.BuildConfig
 import com.example.dinusen.R
@@ -121,10 +119,10 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         binding.fab.setOnClickListener {
             isTimerEnable = !isTimerEnable
             if (!isTimerEnable) {
-                binding.fab.setImageDrawable(this.getHelperDrawable(R.drawable.ic_baseline_alarm_add_24))
+                binding.fab.setImageDrawable(this.getHelperDrawable(R.drawable.ic_baseline_notifications_24))
                 binding.fab.imageTintList = this.getColorStateListSecondaryVariant()
             } else {
-                binding.fab.setImageDrawable(this.getHelperDrawable(R.drawable.ic_baseline_alarm_off_24))
+                binding.fab.setImageDrawable(this.getHelperDrawable(R.drawable.ic_baseline_notifications_active_24))
                 binding.fab.imageTintList = this.getColorStateListHelper(R.color.orange)
             }
         }
