@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimaryVariant"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="?attr/colorPrimaryVariant">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="24dp"
         android:paddingTop="16dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="24dp">
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:selectionRequired="true"
             android:theme="@style/poppinsMedium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:selectionRequired="true"
             app:singleSelection="true">
 
 

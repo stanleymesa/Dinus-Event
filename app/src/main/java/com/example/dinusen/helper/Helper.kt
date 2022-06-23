@@ -1,6 +1,5 @@
 package com.example.dinusen.helper
 
-import android.R
 import android.R.attr.state_focused
 import android.content.Context
 import android.content.res.ColorStateList

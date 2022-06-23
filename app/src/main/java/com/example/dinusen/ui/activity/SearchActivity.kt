@@ -92,10 +92,12 @@ class SearchActivity : AppCompatActivity() {
         val chipValue = arrayListOf(
             "Seminar",
             "Bootcamp",
-            "Web Programming",
-            "Mobile Programming",
             "HMTI",
             "DPM",
+            "Backend",
+            "Frontend Web",
+            "Android",
+            "Flutter",
             "Entrepreneurship",
             "Business",
             "Startup"

@@ -3,8 +3,8 @@
 
     <item
         android:top="-220dp"
-        android:left="-340dp"
-        android:right="-340dp">
+        android:left="-400dp"
+        android:right="-400dp">
 
 
         <shape
