@@ -10,4 +10,5 @@
     <string name="on_going_empty">On Going Event is still empty</string>
     <string name="upcoming_online_empty">Upcoming Online Event is still empty</string>
     <string name="upcoming_offline_empty">Upcoming Offline Event is still empty</string>
+    <string name="dinusen">Dinusen</string>
 </resources>

@@ -5,7 +5,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.R.attr.colorPrimary
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.example.dinusen.BuildConfig
@@ -52,6 +54,10 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setCollapsingToolbar() {
         setSupportActionBar(binding.toolbar)
+        binding.collapseToolbar.setCollapsedTitleTextColor(this.getColorFromAttr(colorPrimary))
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
 
         var scrollY = -1
         binding.appbarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -61,7 +67,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             if (scrollY + verticalOffset == 0) {
-                binding.collapseToolbar.title = "Event"
+                binding.collapseToolbar.title = "Detail"
             } else {
                 binding.collapseToolbar.title = " "
             }
