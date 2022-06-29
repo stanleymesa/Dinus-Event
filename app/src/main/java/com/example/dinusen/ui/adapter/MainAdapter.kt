@@ -2,6 +2,7 @@ package com.example.dinusen.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,6 +19,11 @@ class MainAdapter(private val onItemClickCallback: OnItemClickCallback): ListAda
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+        if (currentList.size < 1) {
+            holder.binding.root.isVisible = false
+            return
+        }
+
         val event = getItem(position % currentList.size)
 
         holder.binding.apply {
